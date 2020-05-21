@@ -20,6 +20,9 @@ double down;
 double angle ;   /* in degrees */
 double angle2 ;   /* in degrees */
 
+GLMmodel* pmodel;
+GLMmodel* pmodel1 = glmReadOBJ("flowers.obj");
+
 //Makes the image into a texture, and returns the id of the texture
 GLuint loadTexture(Image* image) {
       GLuint textureId;
@@ -41,6 +44,17 @@ GLuint loadTexture(Image* image) {
 GLuint _textureId; //The id of the texture
 GLuint _textureId1; //The id of the texture
 
+
+void drawmodel(void)
+{
+		glmUnitize(pmodel1);
+		glmFacetNormals(pmodel1);
+		glmVertexNormals(pmodel1, 90.0);
+		glmScale(pmodel1, .15);
+		glmDraw(pmodel1, GLM_SMOOTH | GLM_MATERIAL);
+}
+
+GLuint startList;
 void init(void)
 {
     Image* image = loadBMP("floor.bmp");
@@ -153,6 +167,19 @@ void moveBack()
 	center[2] -= direction[2] * 0.01;
 }
 
+void drawmodel1(void)
+{
+	if (!pmodel) {
+		pmodel = glmReadOBJ("rose+vase.obj");
+
+		if (!pmodel) exit(0);
+		glmUnitize(pmodel);
+		glmFacetNormals(pmodel);
+		glmVertexNormals(pmodel, 90.0);
+		glmScale(pmodel, .15);
+	}
+	glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
+}
 
 void display(void)
 {
@@ -204,6 +231,12 @@ glEnable(GL_TEXTURE_2D);
 glEnd();
 glDisable(GL_TEXTURE_2D);
 glPopMatrix();
+//model
+glPushMatrix();
+    	glTranslatef(-9.0, -5.0, -9.0);
+    	// glScalef(.25, .25, .25);
+    	drawmodel1();
+	glPopMatrix();
    //head
    glPushMatrix();
    glTranslatef (0.0, 2.5, 0.0);
