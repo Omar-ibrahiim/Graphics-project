@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdio.h>
 #include "imageloader.h"
+#include "glm.h"
 
 static int shoulder1 = 0,shoulder2 = 0, elbow = 0, fingerBase = 0, fingerUp = 0,fingerUp2=0,leg1 =-90.0,knee1 = 0.0,anglarm1 = 0.0,anglarm2 = -180 , leg2 = -90.0 , knee2 = 0.0,anglleg1=0.0,anglleg2=0.0;
 
