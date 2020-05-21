@@ -179,7 +179,7 @@ void drawmodel1(void)
 		glmUnitize(pmodel);
 		glmFacetNormals(pmodel);
 		glmVertexNormals(pmodel, 90.0);
-		glmScale(pmodel, .15);
+		glmScale(pmodel, 5.0);
 	}
 	glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
 }
@@ -237,7 +237,7 @@ glDisable(GL_TEXTURE_2D);
 glPopMatrix();
 //model
 glPushMatrix();
-    	glTranslatef(-9.0, -5.0, -9.0);
+    	glTranslatef(3.0, 3.0, 3.0);
     	// glScalef(.25, .25, .25);
     	drawmodel1();
 	glPopMatrix();
