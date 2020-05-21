@@ -173,7 +173,7 @@ void moveBack()
 void drawmodel1(void)
 {
 	if (!pmodel) {
-		pmodel = glmReadOBJ("Ball.obj");
+		pmodel = glmReadOBJ("re-optimized_sphere.obj");
 
 		if (!pmodel) exit(0);
 		glmUnitize(pmodel);
