@@ -4,10 +4,10 @@
 #include "imageloader.h"
 #include "glm.h"
 
-static int shoulder1 = 0,shoulder2 = 0, elbow = 0, fingerBase = 0, fingerUp = 0,fingerUp2=0,leg1 =-90.0,knee1 = 0.0,anglarm1 = 0.0,anglarm2 = -180 , leg2 = -90.0 , knee2 = 0.0,anglleg1=0.0,anglleg2=0.0;
+static int shoulder1 = -90,shoulder2 = -90, elbow1 = -350, elbow2=10, fingerBase = 0, fingerUp = 0,fingerUp2=0,leg1 =-90.0,knee1 = 0.0,anglarm1 =-90,anglarm2 = -90 , leg2 = -90.0 , knee2 = 0.0,anglleg1=0.0,anglleg2=0.0;
 
 //static int shoulder = 0, shoulder2 = 0, elbow = 0, fingerBase = 0, fingerUp = 0, rhip = 0, rhip2 = 0, rknee = 0, lknee = 0, lhip = 0, lhip2 = 0 ;
-double eye[] = { 0, 0, -20 };
+double eye[] = { 0, 0, 20 };
 double center[] = { 0, 0, 1 };
 double up[] = { 0, 1, 0 };
 double direction[] = {0,0,0};
@@ -60,12 +60,115 @@ void drawmodel(void)
 GLuint startList;
 void init(void)
 {
-  Image* image = loadBMP("floor.bmp");
+  Image* image = loadBMP("grass-background.bmp");
     _textureId = loadTexture(image);
     delete image;
     
     glMatrixMode(GL_PROJECTION);
 	gluPerspective(65.0, (GLfloat)1024 / (GLfloat)869, 1.0, 60.0);
+}
+static int run=0;
+static int jump=0;
+int poses[16][15]={
+   {-90, -90,-270,90, 0, 0, 0, -110, 0, -90,-90,-80, -20,0 , 0 },
+  {-85, -95,-270,90, 0, 0, 0, -105, 0, -90,-90,-85, -10, 0, 0 },
+   {-80, -100,-270,90, 0, 0, 0, -100, 0, -90,-90,-90 ,0, 0, 0 },
+   {-75, -105,-270,90, 0, 0, 0, -95, 0, -90,-90,-95, 0, 0, 0 },
+   {-70, -110,-270,90, 0, 0, 0, -90, 0, -90,-90,-100, 0,0 , 0 },
+   {-75, -105,-270,90, 0, 0, 0, -85, 0, -90,-90,-105, 0,0 , 0 },
+   {-80, -100,-270,90, 0, 0, 0, -80, -10, -90,-90,-110, 0,0 , 0 },
+   {-85, -95,-270,90, 0, 0, 0, -75, -10, -90,-90,-115, 0,0 , 0 },
+   
+
+   {-90, -90,-270,90, 0, 0, 0, -80, -20, -90,-90,-110,0,0 , 0 },
+   {-95, -85,-270,90, 0, 0, 0, -85, -10, -90,-90,-105, 0,0 , 0 },
+   {-100, -80,-270,90, 0, 0, 0, -90, 0, -90,-90,-100, 0,0 , 0 },
+   {-105, -75,-270,90, 0, 0, 0, -95, 0, -90,-90,-95, 0,0 , 0 },
+   {-110, -70,-270,90, 0, 0, 0, -100, 0, -90,-90,-90, 0,0 , 0 },
+   {-105, -75,-270,90, 0, 0, 0, -105, 0, -90,-90,-85, 0,0 , 0 },
+   {-100, -80,-270,90, 0, 0, 0, -110, 0, -90,-90,-80, -10,0 , 0 },
+  {-95, -85,-270,90, 0, 0, 0, -115, 0, -90,-90,-75, -10,0 , 0 },
+};
+int poses2[14][15]={
+  {-135,-135,-270,90,0,0,0,-90,0,-160,-20 ,-90,0,0,0},
+  {-135,-135,-270,90,0,0,0,-90,0,-160,-20 ,-90,0,5,-5},
+  {-135,-135,-270,90,0,0,0,-90,0,-160,-20 ,-90,0,10,-10},
+  {-135,-135,-270,90,0,0,0,-90,0,-160,-20 ,-90,0,15,-15},
+  {-135,-135,-270,90,0,0,0,-90,0,-160,-20 ,-90,0,20,-20},
+  {-135,-135,-270,90,0,0,0,-90,0,-160,-20 ,-90,0,25,-25},
+  {-135,-135,-270,90,0,0,0,-90,0,-160,-20 ,-90,0,30,-30},
+  {-135,-135,-270,90,0,0,0,-90,0,-160,-20 ,-90,0,35,-35},
+
+  {-135,-135,-270,90,0,0,0,-90,0,-160,-20 ,-90,0,30,-30},
+  {-135,-135,-270,90,0,0,0,-90,0,-160,-20 ,-90,0,25,-25},
+  {-135,-135,-270,90,0,0,0,-90,0,-160,-20 ,-90,0,20,-20},
+  {-135,-135,-270,90,0,0,0,-90,0,-160,-20 ,-90,0,15,-15},
+  {-135,-135,-270,90,0,0,0,-90,0,-160,-20 ,-90,0,10,-10},
+  {-135,-135,-270,90,0,0,0,-90,0,-160,-20 ,-90,0,5,-5},
+};
+void setposes(int frameNum)
+{
+  shoulder1 = poses[frameNum][0];
+  shoulder2 = poses[frameNum][1];
+  elbow1 = poses[frameNum][2];
+  elbow2 =poses[frameNum][3];
+  fingerBase = poses[frameNum][4];
+  fingerUp = poses[frameNum][5];
+  fingerUp2=poses[frameNum][6];
+  leg1 =poses[frameNum][7];
+  knee1 = poses[frameNum][8];
+  anglarm1 = poses[frameNum][9];
+  anglarm2 = poses[frameNum][10];
+  leg2 =  poses[frameNum][11];
+  knee2 = poses[frameNum][12];
+  anglleg1=poses[frameNum][13];
+  anglleg2=poses[frameNum][14];
+}
+void setposes2(int Num)
+{
+  shoulder1 = poses2[Num][0];
+  shoulder2 = poses2[Num][1];
+  elbow1 = poses2[Num][2];
+  elbow2 =poses2[Num][3];
+  fingerBase = poses2[Num][4];
+  fingerUp = poses2[Num][5];
+  fingerUp2=poses2[Num][6];
+  leg1 =poses2[Num][7];
+  knee1 = poses2[Num][8];
+  anglarm1 = poses2[Num][9];
+  anglarm2 = poses2[Num][10];
+  leg2 =  poses2[Num][11];
+  knee2 = poses2[Num][12];
+  anglleg1=poses2[Num][13];
+  anglleg2=poses2[Num][14];
+}
+
+
+int f=0;
+void Timer(int value){
+    if (run==1){
+    
+    f = f % 5;
+    setposes(f);   
+    f++;     
+    glutPostRedisplay();
+    glutTimerFunc(100, Timer, 0);
+    }
+    glutPostRedisplay();
+
+}
+int k=0;
+void Timer2(int value){
+    if (jump==1){
+    
+    k = k % 5;
+    setposes2(k);   
+    k++;     
+    glutPostRedisplay();
+    glutTimerFunc(100, Timer2, 0);
+    }
+    glutPostRedisplay();
+
 }
 
 void crossProduct(double a[], double b[], double c[])
@@ -288,7 +391,7 @@ glPushMatrix();
    glutWireCube (1.0);
    glPopMatrix();
    glTranslatef (0.8, 0.0, 0.0);
-   glRotatef ((GLfloat) elbow, 0.0, 0.0, 1.0);
+   glRotatef ((GLfloat) elbow1, 0.0, 0.0, 1.0);
    glTranslatef (0.7, 0.0, 0.0);
    glPushMatrix();
    glScalef (1.5, 0.6, 0.6);
@@ -401,7 +504,7 @@ glPushMatrix();
    glutWireCube (1.0);
    glPopMatrix();
    glTranslatef (0.8, 0.0, 0.0);
-   glRotatef ((GLfloat) elbow, 0.0, 0.0, 1.0);
+   glRotatef ((GLfloat) elbow2, 0.0, 0.0, 1.0);
    glTranslatef (0.7, 0.0, 0.0);
    glPushMatrix();
    glScalef (1.5, 0.6, 0.6);
@@ -635,15 +738,25 @@ case 's':
       glutPostRedisplay();
       break;
    case 'e':
-        if (elbow < 160)
-      elbow = (elbow + 5) % (360);
+        if (elbow1 < -195)
+      elbow1 = (elbow1 + 5) % (360);
       glutPostRedisplay();
       break;
    case 'E':
-        if (elbow > 0)
-      elbow = (elbow - 5) % (360);
+        if (elbow1 > -350)
+      elbow1 = (elbow1 - 5) % (360);
       glutPostRedisplay();
       break;
+    case 'W':
+        if (elbow2 > 10)
+      elbow2 = (elbow2 - 5) % (360);
+      glutPostRedisplay();
+      break;
+   case 'w':
+        if (elbow2 < 165)
+      elbow2 = (elbow2 + 5) % (360);
+      glutPostRedisplay();
+      break;    
    case 'N':
        if (fingerBase <0)
       fingerBase = (fingerBase + 5) % (360);
@@ -734,6 +847,31 @@ case 's':
       anglleg2 = (anglleg2 + 5) % (360);
       glutPostRedisplay();
       break;
+  case 'r':
+        if (run==0)
+        {run=1; }
+        else
+        {
+          run=0;
+        }
+        
+        glutTimerFunc(0,Timer,0);
+        glutPostRedisplay();
+
+       break;
+  case 'j':
+        if (jump==0)
+        {jump=1; }
+        else
+        {
+          jump=0;
+        }
+        
+        glutTimerFunc(0,Timer2,0);
+        glutPostRedisplay();
+
+       break;
+
    default:
 		break;
 
