@@ -60,9 +60,10 @@ void drawmodel(void)
 GLuint startList;
 void init(void)
 {
-    Image* image = loadBMP("floor.bmp");
+  Image* image = loadBMP("floor.bmp");
     _textureId = loadTexture(image);
     delete image;
+    
     glMatrixMode(GL_PROJECTION);
 	gluPerspective(65.0, (GLfloat)1024 / (GLfloat)869, 1.0, 60.0);
 }
@@ -182,6 +183,34 @@ void drawmodel1(void)
 		glmScale(pmodel, 5.0);
 	}
 	glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
+}
+void
+screen_menu(int value)
+{
+	char* name = 0;
+
+	switch (value) {
+	case 'a':
+		name = "floor.bmp";
+		break;
+	case 's':
+		name = "grass-background.bmp";
+		break;
+	case 'd':
+		name = "wood.bmp";
+		break;
+	
+	}
+
+	if (name) {
+		Image* image = loadBMP(name);
+    
+	//	if (!pmodel) exit(0);
+		_textureId = loadTexture(image);
+    delete image;
+	}
+
+	glutPostRedisplay();
 }
 
 void display(void)
@@ -763,7 +792,12 @@ int main(int argc, char **argv)
 	glutDisplayFunc(display);
     glutSpecialFunc(specialKeys);
 	glutKeyboardFunc(keyboard);
-
+glutCreateMenu(screen_menu);
+	glutAddMenuEntry("Models", 0);
+	glutAddMenuEntry("", 0);
+	glutAddMenuEntry("floor", 's');
+	glutAddMenuEntry("grass", 'a');
+	glutAddMenuEntry("wood", 'j');
 	glutMainLoop();
 	return 0;
 }
