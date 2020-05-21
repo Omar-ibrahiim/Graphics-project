@@ -20,8 +20,8 @@ double down;
 double angle ;   /* in degrees */
 double angle2 ;   /* in degrees */
 
-GLMmodel* pmodel;
-//GLMmodel* pmodel1 = glmReadOBJ("flowers.obj");
+//GLMmodel* pmodel;
+GLMmodel* pmodel = glmReadOBJ("flowers.obj");
 
 //Makes the image into a texture, and returns the id of the texture
 GLuint loadTexture(Image* image) {
@@ -60,7 +60,13 @@ void init(void)
     Image* image = loadBMP("floor.bmp");
     _textureId = loadTexture(image);
     delete image;
+    // Material Properties         
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE,mat_amb_diff);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+        glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
+    
     glMatrixMode(GL_PROJECTION);
+
 	gluPerspective(65.0, (GLfloat)1024 / (GLfloat)869, 1.0, 60.0);
 }
 
@@ -166,7 +172,7 @@ void moveBack()
 	center[1] -= direction[1] * 0.001;
 	center[2] -= direction[2] * 0.01;
 }
-
+/*
 void drawmodel1(void)
 {
 	if (!pmodel) {
@@ -180,7 +186,7 @@ void drawmodel1(void)
 	}
 	glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
 }
-
+*/
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT );
@@ -189,6 +195,10 @@ void display(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(eye[0], eye[1], eye[2], center[0], center[1], center[2], up[0], up[1], up[2]);
+  //materials properties
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE,mat_amb_diff);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+        glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
 
 glPushMatrix();
 
@@ -235,7 +245,7 @@ glPopMatrix();
 glPushMatrix();
     	glTranslatef(-9.0, -5.0, -9.0);
     	// glScalef(.25, .25, .25);
-    	drawmodel1();
+    	drawmodel();
 	glPopMatrix();
    //head
    glPushMatrix();
