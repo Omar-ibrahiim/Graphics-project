@@ -22,7 +22,9 @@ double angle ;   /* in degrees */
 double angle2 ;   /* in degrees */
 
 //GLMmodel* pmodel;
-GLMmodel* pmodel = glmReadOBJ("rose+vase.obj");
+GLMmodel* pmodel ;
+GLMmodel* pmodel1;
+
 
 //Makes the image into a texture, and returns the id of the texture
 GLuint loadTexture(Image* image) {
@@ -167,7 +169,7 @@ void moveBack()
 	center[1] -= direction[1] * 0.001;
 	center[2] -= direction[2] * 0.01;
 }
-/*
+
 void drawmodel1(void)
 {
 	if (!pmodel) {
@@ -181,7 +183,7 @@ void drawmodel1(void)
 	}
 	glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
 }
-*/
+
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT );
@@ -237,7 +239,7 @@ glPopMatrix();
 glPushMatrix();
     	glTranslatef(0.0, 0.0, 0.0);
     	// glScalef(.25, .25, .25);
-    	drawmodel();
+    	drawmodel1();
 	glPopMatrix();
    //head
    glPushMatrix();
