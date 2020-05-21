@@ -53,7 +53,7 @@ void drawmodel(void)
 		glmUnitize(pmodel);
 		glmFacetNormals(pmodel);
 		glmVertexNormals(pmodel, 90.0);
-		glmScale(pmodel, .15);
+		glmScale(pmodel, 2);
 		glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
 }
 
@@ -173,7 +173,7 @@ void moveBack()
 void drawmodel1(void)
 {
 	if (!pmodel) {
-		pmodel = glmReadOBJ("rose+vase.obj");
+		pmodel = glmReadOBJ("Ball.obj");
 
 		if (!pmodel) exit(0);
 		glmUnitize(pmodel);
@@ -237,7 +237,7 @@ glDisable(GL_TEXTURE_2D);
 glPopMatrix();
 //model
 glPushMatrix();
-    	glTranslatef(0.0, 0.0, 0.0);
+    	glTranslatef(-9.0, -5.0, -9.0);
     	// glScalef(.25, .25, .25);
     	drawmodel1();
 	glPopMatrix();
