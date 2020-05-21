@@ -21,7 +21,7 @@ double angle ;   /* in degrees */
 double angle2 ;   /* in degrees */
 
 GLMmodel* pmodel;
-GLMmodel* pmodel1 = glmReadOBJ("flowers.obj");
+//GLMmodel* pmodel1 = glmReadOBJ("flowers.obj");
 
 //Makes the image into a texture, and returns the id of the texture
 GLuint loadTexture(Image* image) {
@@ -47,11 +47,11 @@ GLuint _textureId1; //The id of the texture
 
 void drawmodel(void)
 {
-		glmUnitize(pmodel1);
-		glmFacetNormals(pmodel1);
-		glmVertexNormals(pmodel1, 90.0);
-		glmScale(pmodel1, .15);
-		glmDraw(pmodel1, GLM_SMOOTH | GLM_MATERIAL);
+		glmUnitize(pmodel);
+		glmFacetNormals(pmodel);
+		glmVertexNormals(pmodel, 90.0);
+		glmScale(pmodel, .15);
+		glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
 }
 
 GLuint startList;
