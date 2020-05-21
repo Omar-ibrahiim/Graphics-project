@@ -22,7 +22,7 @@ double angle ;   /* in degrees */
 double angle2 ;   /* in degrees */
 
 //GLMmodel* pmodel;
-GLMmodel* pmodel = glmReadOBJ("flowers.obj");
+GLMmodel* pmodel = glmReadOBJ("rose+vase.obj");
 
 //Makes the image into a texture, and returns the id of the texture
 GLuint loadTexture(Image* image) {
@@ -235,7 +235,7 @@ glDisable(GL_TEXTURE_2D);
 glPopMatrix();
 //model
 glPushMatrix();
-    	glTranslatef(-9.0, -5.0, -9.0);
+    	glTranslatef(0.0, 0.0, 0.0);
     	// glScalef(.25, .25, .25);
     	drawmodel();
 	glPopMatrix();
