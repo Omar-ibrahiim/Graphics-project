@@ -5,8 +5,12 @@
 #include "glm.h"
 
 static int shoulder1 = -90,shoulder2 = -90, elbow1 = -350, elbow2=10, fingerBase = 0, fingerUp = 0,fingerUp2=0,leg1 =-90.0,knee1 = 0.0,anglarm1 =-90,anglarm2 = -90 , leg2 = -90.0 , knee2 = 0.0,anglleg1=0.0,anglleg2=0.0;
-
-//static int shoulder = 0, shoulder2 = 0, elbow = 0, fingerBase = 0, fingerUp = 0, rhip = 0, rhip2 = 0, rknee = 0, lknee = 0, lhip = 0, lhip2 = 0 ;
+//for light
+float light_ambient[] = {1.0, 0.0, 0.0, 1.0};
+float light_diffuse[] = {1.0, 0.0, 0.0, 1.0};
+float light_specular[] = {1.0, 1.0, 1.0, 1.0};
+float light_position[] = {0.0, 0.0, 4.0, 1.0};
+////
 double eye[] = { 0, 0, 20 };
 double center[] = { 0, 0, 1 };
 double up[] = { 0, 1, 0 };
@@ -64,8 +68,23 @@ void init(void)
     _textureId = loadTexture(image);
     delete image;
     
-    glMatrixMode(GL_PROJECTION);
+
+
+  glLightfv(GL_LIGHT1, GL_POSITION, light_position);
+  glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
+  glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
+  glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular);
+  glEnable(GL_LIGHT1);
+  glEnable(GL_LIGHTING);
+
+  glEnable(GL_DEPTH_TEST);
+
+
+
+
+  glMatrixMode(GL_PROJECTION);
 	gluPerspective(65.0, (GLfloat)1024 / (GLfloat)869, 1.0, 60.0);
+
 }
 static int run=0;
 static int jump=0;
@@ -283,7 +302,7 @@ void drawmodel1(void)
 		glmUnitize(pmodel);
 		glmFacetNormals(pmodel);
 		glmVertexNormals(pmodel, 90.0);
-		glmScale(pmodel, 5.0);
+		glmScale(pmodel, 1.0);
 	}
 	glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
 }
@@ -318,7 +337,7 @@ screen_menu(int value)
 
 void display(void)
 {
-	glClear(GL_COLOR_BUFFER_BIT );
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  //for light
    	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glShadeModel(GL_FLAT);
 	glMatrixMode(GL_MODELVIEW);
@@ -916,11 +935,30 @@ static void motion(int x, int y)
   }
   glutPostRedisplay();
 }
+//for light
+void main_menu(int value)
+{
+        if (value == 1)
+        {
+		//printf("White Background\n");
+		glClearColor(1.0, 1.0, 1.0, 1.0);
+		glutPostRedisplay();
+        }
+        else if (value == 2)
+        {
+		//printf("Black Background\n");
+		glClearColor(0.0, 0.0, 0.0, 0.0);
+		glutPostRedisplay();
+        }
+}
+////////
 
 int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+	// for light
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	//////
 	glutInitWindowSize(1000, 1000);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("body");
@@ -937,5 +975,12 @@ glutCreateMenu(screen_menu);
 	glutAddMenuEntry("grass", 'a');
 	glutAddMenuEntry("wood", 'j');
 	glutMainLoop();
+  // for light
+	glutCreateMenu(main_menu);
+  glutAddMenuEntry("White Background", 1);
+  glutAddMenuEntry("Black Background", 2);
+  glutAttachMenu(GLUT_RIGHT_BUTTON);
+//
+
 	return 0;
 }
