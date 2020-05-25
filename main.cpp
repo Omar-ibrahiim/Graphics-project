@@ -394,7 +394,7 @@ void display(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(eye[0], eye[1], eye[2], center[0], center[1], center[2], up[0], up[1], up[2]);
-  glpushMatrix();
+        glPushMatrix();
 glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
         glLightfv(GL_LIGHT0, GL_POSITION, light_position);
         glPopMatrix();
