@@ -6,11 +6,38 @@
 
 static int shoulder1 = -90,shoulder2 = -90, elbow1 = -350, elbow2=10, fingerBase = 0, fingerUp = 0,fingerUp2=0,leg1 =-90.0,knee1 = 0.0,anglarm1 =-90,anglarm2 = -90 , leg2 = -90.0 , knee2 = 0.0,anglleg1=0.0,anglleg2=0.0;
 //for light
+/*
 float light_ambient[] = {1.0, 0.0, 0.0, 1.0};
 float light_diffuse[] = {1.0, 0.0, 0.0, 1.0};
 float light_specular[] = {1.0, 1.0, 1.0, 1.0};
 float light_position[] = {0.0, 0.0, 4.0, 1.0};
-////
+*/////
+GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 0.0 };
+GLfloat light_diffuse[] = { 0.5, 0.5, 0.5,1.0 };
+GLfloat light_specular[] = {1.0, 1.0, 1.0, 1.0 };
+
+GLfloat light_position[] = {0.5,5.0, 0.0, 1.0 };
+GLfloat lightPos1[] = {-0.5,-5.0,-2.0, 1.0 };
+
+GLfloat mat_amb_diff[] = {0.643, 0.753, 0.934, 1.0 };
+GLfloat mat_specular[] = { 0.0, 0.0, 0.0, 1.0 };
+GLfloat shininess[] = {100.0 };  
+
+GLfloat teapotl_diff[] = { 0.0,0.0, 1.0, 1.0 };
+GLfloat teapotl_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+GLfloat teapotl_shininess[] = {10.0 };  
+
+GLfloat teapotm_diff[] = { 1.0, 0, 0.0, 1.0 };
+GLfloat teapotm_specular[] = { 0.0, 0.0, 0.0, 0.0 };
+GLfloat teapotm_shininess[] = {1.0 };  
+
+GLfloat teapotr_diff[] = { 1.0, .0, 0.0, 1.0 };
+GLfloat teapotr_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+GLfloat teapotr_shininess[] = {1000.0 };  
+
+GLfloat cube_diff[] = {1.0,0.0, 0.0, 1.0 };
+GLfloat cube_specular[] = { 0.5, 0.5, 0.5, 1.0 };
+GLfloat cube_shininess[] = {10.0 }; 
 double eye[] = { 0, 0, 20 };
 double center[] = { 0, 0, 1 };
 double up[] = { 0, 1, 0 };
@@ -69,7 +96,7 @@ void init(void)
     delete image;
     
 
-
+/*
   glLightfv(GL_LIGHT1, GL_POSITION, light_position);
   glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
   glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
@@ -78,7 +105,31 @@ void init(void)
   glEnable(GL_LIGHTING);
 
   glEnable(GL_DEPTH_TEST);
-
+*/// Turn on the power
+        glEnable(GL_LIGHTING);
+        // Flip light switch
+        glEnable(GL_LIGHT0);
+        glEnable(GL_LIGHT1);
+        // assign light parameters
+        glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+        glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+        glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
+        glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
+        glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular);
+	// Material Properties         
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE,mat_amb_diff);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+        glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
+	GLfloat lightColor1[] = {1.0f, 1.0f,  1.0f, 1.0f };
+        glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
+        glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor1);
+        glEnable(GL_NORMALIZE);
+        //Enable smooth shading
+        glShadeModel(GL_SMOOTH);
+        // Enable Depth buffer
+        glEnable(GL_DEPTH_TEST);
 
 
 
@@ -343,7 +394,14 @@ void display(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(eye[0], eye[1], eye[2], center[0], center[1], center[2], up[0], up[1], up[2]);
-  
+  glpushMatrix();
+glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
+        glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+        glPopMatrix();
+        //materials properties
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE,mat_amb_diff);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+        glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
 
 glPushMatrix();
 
