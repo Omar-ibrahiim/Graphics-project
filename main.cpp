@@ -88,12 +88,11 @@ void drawmodel(void)
 		glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
 }
 
-GLuint startList;
 void init(void)
-{
+{/*
   Image* image = loadBMP("grass-background.bmp");
     _textureId = loadTexture(image);
-    delete image;
+    delete image;*/
     
 
 /*
@@ -377,10 +376,15 @@ screen_menu(int value)
 
 	if (name) {
 		Image* image = loadBMP(name);
-    
-	//	if (!pmodel) exit(0);
 		_textureId = loadTexture(image);
     delete image;
+    else
+    {
+      Image* image = loadBMP("grass-background");
+		_textureId = loadTexture(image);
+    delete image;
+    }
+    
 	}
 
 	glutPostRedisplay();
@@ -1023,7 +1027,6 @@ int main(int argc, char **argv)
 	init();
 	glutMouseFunc(mouse);
    glutMotionFunc(motion);
-	glutDisplayFunc(display);
     glutSpecialFunc(specialKeys);
 	glutKeyboardFunc(keyboard);
 glutCreateMenu(screen_menu);
@@ -1032,6 +1035,7 @@ glutCreateMenu(screen_menu);
 	glutAddMenuEntry("floor", 's');
 	glutAddMenuEntry("grass", 'a');
 	glutAddMenuEntry("wood", 'j');
+  glutDisplayFunc(display);
 	glutMainLoop();
   // for light
 	glutCreateMenu(main_menu);
