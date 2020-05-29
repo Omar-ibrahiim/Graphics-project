@@ -6,12 +6,6 @@
 
 static int shoulder1 = -90,shoulder2 = -90, elbow1 = -350, elbow2=10, fingerBase = 0, fingerUp = 0,fingerUp2=0,leg1 =-90.0,knee1 = 0.0,anglarm1 =-90,anglarm2 = -90 , leg2 = -90.0 , knee2 = 0.0,anglleg1=0.0,anglleg2=0.0;
 //for light
-/*
-float light_ambient[] = {1.0, 0.0, 0.0, 1.0};
-float light_diffuse[] = {1.0, 0.0, 0.0, 1.0};
-float light_specular[] = {1.0, 1.0, 1.0, 1.0};
-float light_position[] = {0.0, 0.0, 4.0, 1.0};
-*/////
 GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 0.0 };
 GLfloat light_diffuse[] = { 0.5, 0.5, 0.5,1.0 };
 GLfloat light_specular[] = {1.0, 1.0, 1.0, 1.0 };
@@ -89,22 +83,12 @@ void drawmodel(void)
 }
 
 void init(void)
-{/*
+{
   Image* image = loadBMP("grass-background.bmp");
     _textureId = loadTexture(image);
-    delete image;*/
+    delete image;
     
-
-/*
-  glLightfv(GL_LIGHT1, GL_POSITION, light_position);
-  glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
-  glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
-  glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular);
-  glEnable(GL_LIGHT1);
-  glEnable(GL_LIGHTING);
-
-  glEnable(GL_DEPTH_TEST);
-*/// Turn on the power
+// Turn on the power
         glEnable(GL_LIGHTING);
         // Flip light switch
         glEnable(GL_LIGHT0);
@@ -356,39 +340,6 @@ void drawmodel1(void)
 	}
 	glmDraw(pmodel, GLM_SMOOTH | GLM_MATERIAL);
 }
-void
-screen_menu(int value)
-{
-	char* name = 0;
-
-	switch (value) {
-	case 'a':
-		name = "floor.bmp";
-		break;
-	case 's':
-		name = "grass-background.bmp";
-		break;
-	case 'd':
-		name = "wood.bmp";
-		break;
-	
-	}
-
-	if (name) {
-		Image* image = loadBMP(name);
-		_textureId = loadTexture(image);
-    delete image;
-    else
-    {
-      Image* image = loadBMP("grass-background");
-		_textureId = loadTexture(image);
-    delete image;
-    }
-    
-	}
-
-	glutPostRedisplay();
-}
 
 void display(void)
 {
@@ -450,8 +401,7 @@ glDisable(GL_TEXTURE_2D);
 glPopMatrix();
 //model
 glPushMatrix();
-    	glTranslatef(3.0, 3.0, 3.0);
-    	// glScalef(.25, .25, .25);
+    	glTranslatef(3.0, 1.0, 3.0);
     	drawmodel1();
 	glPopMatrix();
    //head
@@ -1002,13 +952,11 @@ void main_menu(int value)
 {
         if (value == 1)
         {
-		//printf("White Background\n");
 		glClearColor(1.0, 1.0, 1.0, 1.0);
 		glutPostRedisplay();
         }
         else if (value == 2)
         {
-		//printf("Black Background\n");
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		glutPostRedisplay();
         }
@@ -1029,12 +977,6 @@ int main(int argc, char **argv)
    glutMotionFunc(motion);
     glutSpecialFunc(specialKeys);
 	glutKeyboardFunc(keyboard);
-glutCreateMenu(screen_menu);
-	glutAddMenuEntry("Models", 0);
-	glutAddMenuEntry("", 0);
-	glutAddMenuEntry("floor", 's');
-	glutAddMenuEntry("grass", 'a');
-	glutAddMenuEntry("wood", 'j');
   glutDisplayFunc(display);
 	glutMainLoop();
   // for light
